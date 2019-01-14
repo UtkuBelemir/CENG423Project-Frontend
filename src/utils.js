@@ -5,6 +5,23 @@ export const cookieByName = function (name) {
 }
 export const setCookie = function (name, value, hours) {
     let dateObj = new Date();
-    dateObj.setTime(dateObj.getTime() + (hours*60*60*1000));
-    document.cookie = name + "=" + value + ";expires="+ dateObj.toUTCString()
+    dateObj.setTime(dateObj.getTime() + (hours * 60 * 60 * 1000));
+    document.cookie = name + "=" + value + ";expires=" + dateObj.toUTCString()
+}
+
+export const categories = {
+    "buy-sell": [
+        {value: "furniture", label: 'Furniture'},
+        {value: "electronics", label: 'Electronics'},
+        {value: "fashion", label: 'Fashion'},
+        {value: "book", label: 'Book'}
+    ],
+    "roommate": [
+        {value: "house", label: "Full House"},
+        {value: "room", label: "Private Room"}
+    ]
+}
+export const findCategory = (category, type) => {
+    let tempCategory = categories[type].find((i1) => i1.value == category);
+    return tempCategory ? tempCategory : {}
 }

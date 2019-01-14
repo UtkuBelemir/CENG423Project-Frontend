@@ -2,18 +2,20 @@ import React from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom';
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-import Home from "./components/Pages/Home";
-import Profile from "./components/Pages/Profile";
-import AdvertisementDashboard from "./components/Pages/AdvertisementDashboard";
-import BuySell from "./components/Pages/BuySell";
-import FindRoommate from "./components/Pages/FindRoommate";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import AdvertisementDashboard from "./pages/AdvertisementDashboard";
+import BuySell from "./pages/BuySell";
+import FindRoommate from "./pages/FindRoommate";
 import NotificationManager from './components/NotificationManager';
-import Login from './components/Pages/Login';
-import SignUp from './components/Pages/SignUp';
-import ResetPassword from './components/Pages/ForgotPassword';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import ResetPassword from './pages/ForgotPassword';
 import {connect} from 'react-redux';
 import {getData, setUser} from "./reduxUtils/actions";
 import {setCookie} from "./utils";
+import BuySellForm from "./pages/BuySellForm";
+import FindRoommateForm from "./pages/FindRommateForm";
 
 const _LoginWithCookie = (props) => {
     props.getData({
@@ -23,7 +25,6 @@ const _LoginWithCookie = (props) => {
             setCookie("aybu-sys-auth", e.data.token, 10);
             props.setUser(e.data)
         },
-        onError: (e) => console.log("Login error", e)
     })
     return null;
 }
@@ -39,7 +40,7 @@ class RouterIndex extends React.Component {
                     <LoginWithCookie/>
                     <NotificationManager/>
                     <Route component={Header}/>
-                    <div style={{height: 'calc(100vh - 96px)'}}>
+                    <div style={{height: 'calc(100vh - 128px)',overflow : 'hidden',padding : 16}}>
                         <Route exact path="/" component={Home}/>
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/reset-password" component={ResetPassword}/>
@@ -47,7 +48,11 @@ class RouterIndex extends React.Component {
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/manage-advertisements" component={AdvertisementDashboard}/>
                         <Route exact path="/buy-and-sell" component={BuySell}/>
+                        <Route exact path="/buy-and-sell/add" component={BuySellForm}/>
                         <Route exact path="/find-roommate" component={FindRoommate}/>
+                        <Route exact path="/find-roommate/add" component={FindRoommateForm}/>
+                        <Route exact path="/buy-and-sell/edit/:advertisementId" component={BuySellForm}/>
+                        <Route exact path="/find-roommate/edit/:advertisementId" component={FindRoommateForm}/>
                     </div>
                     <Route exact component={Footer}/>
                 </div>

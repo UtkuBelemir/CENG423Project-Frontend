@@ -32,22 +32,53 @@
     align-items: center;
     height: calc(100vh - 128px);
 }
-.sign-up-buttons{
+.form-buttons{
     padding-top: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.sign-up-buttons p{
+.form-buttons p{
     color: #7A7A7A;
 }
-.sign-up-buttons p span{
+.form-buttons p span{
     cursor: pointer;
     color: #6EC6FF;
 }
 .notification-icon{
     padding-right: 8px;
+}
+.fab-bottom-right{
+    position: absolute;
+    bottom: 48px;
+    right: 32px;
+}
+.file-upload-box{
+    width: 256px;
+    text-align: center;
+    height: 256px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EEE;
+    border-radius: 10px;
+    border: 3px dashed #BABABA;
+    cursor: pointer;
+}
+.advertisement-item-image-container{
+    width: 256px;
+    height: 256px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+.file-upload-box:hover{
+    opacity: 0.5;
+}
+.center-margin{
+    margin : 0 auto
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {

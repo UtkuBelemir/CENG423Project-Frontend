@@ -1,27 +1,39 @@
 import React from 'react';
 import {Paper, Button, Grid, Typography} from '@material-ui/core';
-import {Textfield} from '../Form';
+import {Textfield} from '../components/Form';
 import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
-import {postForm,setUser} from '../../reduxUtils/actions';
-import {setCookie} from "../../utils";
+import {postForm, setUser, showNotification} from '../reduxUtils/actions';
+import {setCookie} from "../utils";
 class Login extends React.Component {
+    constructor(props){
+        super(props);
+        if(this.props.userInfo && this.props.userInfo.username){
+            this.props.showNotification("Already logged in!","warning")
+            this.props.history.goBack()
+        }
+    }
     onLogin = () => {
-        this.props.postForm({
-            endPoint: "auth/login",
-            formName: "loginForm",
-            onSuccess: (e) => {
-                setCookie("aybu-sys-auth",e.data.token,10);
-                this.props.setUser(e.data)
-            },
-            onError: (e) => console.log("Login error", e),
-            notifications : {
-                success : {
-                    text : "Deneme"
+        if(this.props.userInfo && this.props.userInfo.username){
+            this.props.showNotification("Already logged in!","warning")
+            this.props.history.push('/manage-advertisements')
+        } else {
+            this.props.postForm({
+                endPoint: "auth/login",
+                formName: "loginForm",
+                onSuccess: (e) => {
+                    setCookie("aybu-sys-auth",e.data.token,10);
+                    this.props.setUser(e.data)
+                    this.props.history.push('/manage-advertisements')
                 },
-                error : {}
-            }
-        })
+                notifications : {
+                    success : {
+                        text : "Login successful. Redirecting..."
+                    },
+                    error : true,
+                }
+            })
+        }
     }
     render() {
         return (
@@ -40,9 +52,9 @@ class Login extends React.Component {
                         </Typography>
                         <span style={{border: '0.5px solid #BABABA', flexGrow: 1}}/>
                     </div>
-                    <Textfield type="number" name="username" label="Student ID" fullWidth required/>
+                    <Textfield name="username" label="Student ID" fullWidth required/>
                     <Textfield type="password" name="password" label="Password" fullWidth required/>
-                    <div className="sign-up-buttons">
+                    <div className="form-buttons">
                         <Button variant="contained" color="secondary" onClick={this.onLogin}>
                             Login
                         </Button>
@@ -55,7 +67,11 @@ class Login extends React.Component {
     }
 }
 
-const _Login = connect((state) => state,{postForm,setUser})(Login);
+const _Login = connect((state) => {
+    return{
+        userInfo : state && state.userOps
+    }
+},{postForm,setUser,showNotification})(Login);
 
 export default reduxForm({
     form: 'loginForm'

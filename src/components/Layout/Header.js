@@ -1,27 +1,62 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, Button, IconButton} from '@material-ui/core';
+import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {connect} from 'react-redux';
 import AybuLogo from '../../vendor/assets/aybu-logo.png';
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 
-const LoggedInButtons = (props) => {
-    return (
-        <>
-            <Button color="inherit" disableRipple onClick={() => props.history.push('/buy-and-sell')}>Buy /
-                Sell</Button>
-            <span className="button-separator"/>
-            <Button color="inherit" disableRipple onClick={() => props.history.push('/find-roommate')}>Find a
-                Roommate</Button>
-            <span className="button-separator"/>
-            <Button color="inherit" disableRipple onClick={() => props.history.push('/manage-advertisements')}>Manage
-                Advertisements</Button>
-            <span className="button-separator"/>
-            <IconButton color="inherit" aria-label="Menu" onClick={() => props.history.push('/profile')}>
-                <AccountCircle/>
-            </IconButton>
-        </>
-    )
+class LoggedInButtons extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            anchorElement: null
+        }
+    }
+
+    closeMenu = () => {
+        this.setState({
+            anchorElement: null
+        })
+    }
+    handleLogout = () => {
+        this.closeMenu()
+    }
+
+    render() {
+        return (
+            <>
+                <Button color="inherit" disableRipple onClick={() => this.props.history.push('/buy-and-sell')}>Buy /
+                    Sell</Button>
+                <span className="button-separator"/>
+                <Button color="inherit" disableRipple onClick={() => this.props.history.push('/find-roommate')}>Find a
+                    Roommate</Button>
+                <span className="button-separator"/>
+                <Button color="inherit" disableRipple onClick={() => this.props.history.push('/manage-advertisements')}>Manage
+                    Advertisements</Button>
+                <span className="button-separator"/>
+                <Button color="inherit" aria-label="Menu"
+                            aria-owns={this.state.anchorElement ? 'profile-menu' : undefined}
+                            aria-haspopup="true"
+                            onClick={(e) => this.setState({anchorElement: this.state.anchorElement ? null : e.currentTarget})}>
+                    <AccountCircle/> {this.props.displayName}
+                </Button>
+                <Menu
+                    id="profile-menu"
+                    anchorEl={this.state.anchorElement}
+                    open={!!this.state.anchorElement}
+                    onClose={this.closeMenu}
+                >
+                    <MenuItem onClick={() => {
+                        this.props.history.push('/profile');
+                        this.closeMenu()
+                    }}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+                </Menu>
+            </>
+        )
+    }
 }
 
 class NormalButtons extends React.Component {
@@ -31,8 +66,9 @@ class NormalButtons extends React.Component {
             hidden: true
         }
     }
+
     componentDidMount() {
-        setTimeout( () => this.setState({hidden : false}),200)
+        setTimeout(() => this.setState({hidden: false}), 200)
     }
 
     render() {
@@ -54,10 +90,9 @@ class NormalButtons extends React.Component {
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.goHomePage = this.goHomePage.bind(this);
     }
 
-    goHomePage() {
+    goHomePage = () => {
         this.props.history.push('/')
     }
 
@@ -73,7 +108,7 @@ class Header extends React.Component {
                                 onClick={this.goHomePage}>
                         Student Assistant System
                     </Typography>
-                    {isLoggedIn ? <LoggedInButtons history={history}/> :
+                    {isLoggedIn ? <LoggedInButtons history={history} displayName={userInfo.first_name + " " + userInfo.last_name}/> :
                         <NormalButtons history={history}/>
                     }
                 </Toolbar>

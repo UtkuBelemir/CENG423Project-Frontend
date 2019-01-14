@@ -1,17 +1,22 @@
 import React from 'react';
 import {Paper, Button, Grid, Typography} from '@material-ui/core';
-import {Selectfield, Textfield} from '../Form';
+import {Selectfield, Textfield} from '../components/Form';
 import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
-import {postForm} from "../../reduxUtils/actions";
+import {postForm, showNotification} from "../reduxUtils/actions";
 
 class SignUp extends React.Component {
+    constructor(props){
+        super(props);
+        if(this.props.userInfo && this.props.userInfo.username){
+            this.props.showNotification("Already logged in!","warning")
+            this.props.history.goBack()
+        }
+    }
     onSignUp = () => {
         this.props.postForm({
             endPoint: "auth/signup",
             formName: "signupForm",
-            onSuccess: (e) => console.log("Signup Success", e),
-            onError: (e) => console.log("Signup error", e),
             notifications : {
                 success : {},
                 error : {}
@@ -50,7 +55,7 @@ class SignUp extends React.Component {
 
                     <Selectfield name="gender" label="Gender"
                                  items={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}/>
-                    <div className="sign-up-buttons">
+                    <div className="form-buttons">
                         <Button variant="contained" color="secondary" onClick={this.onSignUp}>
                             Sign Up
                         </Button>
@@ -64,7 +69,11 @@ class SignUp extends React.Component {
     }
 }
 
-const _SignUp = connect((state) => state, {postForm})(SignUp);
+const _SignUp = connect((state) => {
+    return{
+        userInfo : state && state.userOps
+    }
+}, {postForm,showNotification})(SignUp);
 
 export default reduxForm({
     form: 'signupForm'

@@ -1,15 +1,19 @@
 import React from 'react';
 import {Paper, Button, Grid, Typography} from '@material-ui/core';
-import {Textfield} from '../Form';
+import {Textfield} from '../components/Form';
 import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
-import {postForm,setUser} from '../../reduxUtils/actions';
+import {postForm,setUser} from '../reduxUtils/actions';
 
 class ResetPassword extends React.Component {
     onReset = () => {
         this.props.postForm({
             endPoint: "auth/renew",
             formName: "resetPwForm",
+            notifications : {
+                success : true,
+                error : true
+            }
         })
     }
     render() {
@@ -34,7 +38,7 @@ class ResetPassword extends React.Component {
                     <Textfield name="email" label="E-mail" fullWidth required/>
                     <Textfield type="password" name="password" label="Password" fullWidth required/>
                     <Textfield type="password" name="password_again" label="Password Again" fullWidth required/>
-                    <div className="sign-up-buttons">
+                    <div className="form-buttons">
                         <Button variant="contained" color="secondary" onClick={this.onReset}>
                             Reset
                         </Button>
