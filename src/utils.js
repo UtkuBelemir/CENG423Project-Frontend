@@ -8,7 +8,9 @@ export const setCookie = function (name, value, hours) {
     dateObj.setTime(dateObj.getTime() + (hours * 60 * 60 * 1000));
     document.cookie = name + "=" + value + ";expires=" + dateObj.toUTCString()
 }
-
+export function removeCookie( name ) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 export const categories = {
     "buy-sell": [
         {value: "furniture", label: 'Furniture'},

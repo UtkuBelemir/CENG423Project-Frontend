@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import {Field} from 'redux-form';
 const MUITextField = (props) =>{
-    const {input,meta,...rest} = props;
+    const {input,...rest} = props;
     return(
         <TextField
             {...rest}

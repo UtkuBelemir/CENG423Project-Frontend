@@ -29,7 +29,8 @@ class BuySellForm extends React.Component {
                 notifications : {
                     success : true,
                     error : true,
-                }
+                },
+                onSuccess : () => this.props.history.goBack()
             })
         }else{
             this.props.postForm({
@@ -39,7 +40,8 @@ class BuySellForm extends React.Component {
                 notifications : {
                     success : true,
                     error : true,
-                }
+                },
+                onSuccess : () => this.props.history.goBack()
             })
         }
 

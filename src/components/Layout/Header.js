@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import AybuLogo from '../../vendor/assets/aybu-logo.png';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import {logOut} from "../../reduxUtils/actions";
 
 
 class LoggedInButtons extends React.Component {
@@ -21,7 +22,9 @@ class LoggedInButtons extends React.Component {
         })
     }
     handleLogout = () => {
+        this.props.logout()
         this.closeMenu()
+        this.props.history.push('/')
     }
 
     render() {
@@ -108,7 +111,7 @@ class Header extends React.Component {
                                 onClick={this.goHomePage}>
                         Student Assistant System
                     </Typography>
-                    {isLoggedIn ? <LoggedInButtons history={history} displayName={userInfo.first_name + " " + userInfo.last_name}/> :
+                    {isLoggedIn ? <LoggedInButtons history={history} displayName={userInfo.first_name + " " + userInfo.last_name} logout={this.props.logOut}/> :
                         <NormalButtons history={history}/>
                     }
                 </Toolbar>
@@ -120,6 +123,6 @@ class Header extends React.Component {
 
 export default connect((state) => {
     return {
-        userInfo: state && state.userOps && state.userOps,
+        userInfo: (state && state.userOps && state.userOps) || {},
     }
-})(Header);
+},{logOut})(Header);

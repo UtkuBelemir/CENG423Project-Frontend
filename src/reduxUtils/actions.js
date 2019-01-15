@@ -1,25 +1,22 @@
-import {cookieByName} from "../utils";
 import Api from './api';
+import {removeCookie} from "../utils";
 
 export const types = {
-    POST_DATA_FAILED: 'POST_DATA_FAILED',
-    POST_DATA_SUCCESS: 'POST_DATA_SUCCESS',
+    LOGIN_USER_SUCCESS: 'LOGIN_USER_SUCCESS',
     PUSH_NOTIFICATION: 'PUSH_NOTIFICATION',
     CLEAR_NOTIFICATION: 'CLEAR_NOTIFICATION',
-    LOGIN_USER_SUCCESS: 'LOGIN_USER_SUCCESS',
-    LOGIN_USER_FAILED: 'LOGIN_USER_FAILED',
     FETCH_DATA_SUCCESS: 'FETCH_DATA_SUCCESS',
     FETCH_DATA_FAILED: 'FETCH_DATA_FAILED',
-    COOKIE_IS_VALID: 'COOKIE_IS_VALID',
-    COOKIE_IS_NOT_VALID: 'COOKIE_IS_NOT_VALID',
-    GET_DATA_FAILED: 'GET_DATA_FAILED',
-    GET_DATA_SUCCESS: 'GET_DATA_SUCCESS',
+    POST_DATA_SUCCESS: 'POST_DATA_SUCCESS',
+    POST_DATA_FAILED: 'POST_DATA_FAILED',
+    LOGOUT_USER_SUCCESS : 'LOGOUT_USER_SUCCESS'
 };
+
 export function postForm(options) {
     return function (dispatch, getState) {
         let currentState = getState();
         let formValues = currentState.form[options.formName].values;
-        Api.sendData(formValues, options.endPoint,options.isFormData || false).then((newData) => {
+        Api.sendData(formValues, options.endPoint, options.isFormData || false).then((newData) => {
             if (newData.success) {
                 dispatch({
                     name: options.formName,
@@ -29,8 +26,8 @@ export function postForm(options) {
                 if (options.onSuccess) {
                     options.onSuccess(newData)
                 }
-                if(options.notifications && options.notifications.success){
-                    dispatch(showNotification(options.notifications.success.text || newData.message,"success"))
+                if (options.notifications && options.notifications.success) {
+                    dispatch(showNotification(options.notifications.success.text || newData.message, "success"))
                 }
             } else {
                 dispatch({
@@ -41,8 +38,8 @@ export function postForm(options) {
                 if (options.onError) {
                     options.onError(newData)
                 }
-                if(options.notifications && options.notifications.error){
-                    dispatch(showNotification(options.notifications.error.text || newData.message,"error"))
+                if (options.notifications && options.notifications.error) {
+                    dispatch(showNotification(options.notifications.error.text || newData.message, "error"))
                 }
             }
         }).catch((err) => {
@@ -54,12 +51,12 @@ export function postForm(options) {
             if (options.onError) {
                 options.onError(err)
             }
-            if(options.notifications && options.notifications.error){
-                dispatch(showNotification(options.notifications.error.text || err.toString(),"error"))
+            if (options.notifications && options.notifications.error) {
+                dispatch(showNotification(options.notifications.error.text || err.toString(), "error"))
             }
         })
-        if(options.notifications && options.notifications.info){
-            dispatch(showNotification(options.notifications.info.text,"info"))
+        if (options.notifications && options.notifications.info) {
+            dispatch(showNotification(options.notifications.info.text, "info"))
         }
     }
 }
@@ -68,12 +65,12 @@ export function putForm(options) {
     return function (dispatch, getState) {
         let currentState = getState()
         let formValues
-        if (!options.customValues){
+        if (!options.customValues) {
             formValues = currentState.form[options.formName].values
-        }else{
+        } else {
             formValues = options.customValues
         }
-        Api.putData(formValues, options.endPoint,options.isFormData || false).then((newData) => {
+        Api.putData(formValues, options.endPoint, options.isFormData || false).then((newData) => {
             if (newData.success) {
                 dispatch({
                     name: options.formName,
@@ -83,8 +80,8 @@ export function putForm(options) {
                 if (options.onSuccess) {
                     options.onSuccess(newData)
                 }
-                if(options.notifications && options.notifications.success){
-                    dispatch(showNotification(options.notifications.success.text || newData.message,"success"))
+                if (options.notifications && options.notifications.success) {
+                    dispatch(showNotification(options.notifications.success.text || newData.message, "success"))
                 }
             } else {
                 dispatch({
@@ -95,8 +92,8 @@ export function putForm(options) {
                 if (options.onError) {
                     options.onError(newData)
                 }
-                if(options.notifications && options.notifications.error){
-                    dispatch(showNotification(options.notifications.error.text || newData.message,"error"))
+                if (options.notifications && options.notifications.error) {
+                    dispatch(showNotification(options.notifications.error.text || newData.message, "error"))
                 }
             }
         }).catch((err) => {
@@ -108,12 +105,12 @@ export function putForm(options) {
             if (options.onError) {
                 options.onError(err)
             }
-            if(options.notifications && options.notifications.error){
-                dispatch(showNotification(options.notifications.error.text || err.toString(),"error"))
+            if (options.notifications && options.notifications.error) {
+                dispatch(showNotification(options.notifications.error.text || err.toString(), "error"))
             }
         })
-        if(options.notifications && options.notifications.info){
-            dispatch(showNotification(options.notifications.info.text,"info"))
+        if (options.notifications && options.notifications.info) {
+            dispatch(showNotification(options.notifications.info.text, "info"))
         }
     }
 }
@@ -135,8 +132,8 @@ export function getData(options) {
                 if (options.onSuccess) {
                     options.onSuccess(newData)
                 }
-                if(options.notifications && options.notifications.success){
-                    dispatch(showNotification(options.notifications.success.text || newData.message,"success"))
+                if (options.notifications && options.notifications.success) {
+                    dispatch(showNotification(options.notifications.success.text || newData.message, "success"))
                 }
             } else {
                 dispatch({
@@ -147,8 +144,8 @@ export function getData(options) {
                 if (options.onError) {
                     options.onError(newData)
                 }
-                if(options.notifications && options.notifications.error){
-                    dispatch(showNotification(options.notifications.error.text || newData.message,"error"))
+                if (options.notifications && options.notifications.error) {
+                    dispatch(showNotification(options.notifications.error.text || newData.message, "error"))
                 }
             }
         }).catch((err) => {
@@ -160,12 +157,12 @@ export function getData(options) {
             if (options.onError) {
                 options.onError(err)
             }
-            if(options.notifications && options.notifications.error){
-                dispatch(showNotification(options.notifications.error.text || err.toString(),"error"))
+            if (options.notifications && options.notifications.error) {
+                dispatch(showNotification(options.notifications.error.text || err.toString(), "error"))
             }
         })
-        if(options.notifications && options.notifications.info){
-            dispatch(showNotification(options.notifications.info.text,"error"))
+        if (options.notifications && options.notifications.info) {
+            dispatch(showNotification(options.notifications.info.text, "error"))
         }
     }
 }
@@ -177,27 +174,27 @@ export function deleteData(options) {
                 if (options.onSuccess) {
                     options.onSuccess(newData)
                 }
-                if(options.notifications && options.notifications.success){
-                    dispatch(showNotification(options.notifications.success.text || newData.message,"success"))
+                if (options.notifications && options.notifications.success) {
+                    dispatch(showNotification(options.notifications.success.text || newData.message, "success"))
                 }
             } else {
                 if (options.onError) {
                     options.onError(newData)
                 }
-                if(options.notifications && options.notifications.error){
-                    dispatch(showNotification(options.notifications.error.text || newData.message,"error"))
+                if (options.notifications && options.notifications.error) {
+                    dispatch(showNotification(options.notifications.error.text || newData.message, "error"))
                 }
             }
         }).catch((err) => {
             if (options.onError) {
                 options.onError(err)
             }
-            if(options.notifications && options.notifications.error){
-                dispatch(showNotification(options.notifications.error.text || err.toString(),"error"))
+            if (options.notifications && options.notifications.error) {
+                dispatch(showNotification(options.notifications.error.text || err.toString(), "error"))
             }
         })
-        if(options.notifications && options.notifications.info){
-            dispatch(showNotification(options.notifications.info.text,"error"))
+        if (options.notifications && options.notifications.info) {
+            dispatch(showNotification(options.notifications.info.text, "error"))
         }
     }
 }
@@ -211,10 +208,20 @@ export function setUser(userData) {
     }
 }
 
-export function showNotification(infoText, notificationType, id = parseInt(Math.random()*10000)) {
+export function logOut() {
+    return function (dispatch, getState) {
+        removeCookie("aybu-sys-auth")
+        dispatch({
+            type: types.LOGOUT_USER_SUCCESS,
+        })
+    }
+}
 
-    if (!infoText) return function (dispatch,getState) {};
-    return function (dispatch,getState) {
+export function showNotification(infoText, notificationType, id = parseInt(Math.random() * 10000)) {
+
+    if (!infoText) return function (dispatch, getState) {
+    };
+    return function (dispatch, getState) {
         dispatch({
             type: types.PUSH_NOTIFICATION,
             data: {
@@ -227,7 +234,7 @@ export function showNotification(infoText, notificationType, id = parseInt(Math.
 }
 
 export function clearNotification(notificationId) {
-    return function (dispatch,getState) {
+    return function (dispatch, getState) {
         dispatch({
             type: types.CLEAR_NOTIFICATION,
             id: notificationId

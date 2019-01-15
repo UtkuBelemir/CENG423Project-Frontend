@@ -26,9 +26,7 @@ class FindRoommateForm extends React.Component {
                 endPoint : "advertisement/"+this.advertisementID,
                 formName: "findRoommateForm",
                 isFormData : true,
-                onSuccess: (e) => {
-                    this.props.history.goBack();
-                },
+                onSuccess : () => this.props.history.goBack(),
                 notifications : {
                     success : true,
                     error : true,
@@ -39,9 +37,7 @@ class FindRoommateForm extends React.Component {
                 endPoint: "advertisement",
                 formName: "findRoommateForm",
                 isFormData : true,
-                onSuccess: (e) => {
-                    setTimeout( () => this.props.history.goBack() , 500)
-                },
+                onSuccess : () => this.props.history.goBack(),
                 notifications : {
                     success : true,
                     error : true,

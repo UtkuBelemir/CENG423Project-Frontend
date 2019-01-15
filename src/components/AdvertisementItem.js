@@ -9,9 +9,9 @@ import ColorfulButton from "./ColorfulButton";
 import Chip from "@material-ui/core/Chip";
 import {findCategory} from "../utils";
 import ImagePlaceholder from '../vendor/assets/placeholder.png';
+
 const AdvertisementItem = (props) => {
     const {category,description,image,owner,price,record_id,title,status} = props.data
-    console.log("SATTSTAST",status)
     const activeCategory = findCategory(category,props.type).label;
     return (
         <Grid item xs={12} sm={6} md={4} lg={3} xl={3} style={{padding: '8px 0px'}}>
@@ -21,7 +21,7 @@ const AdvertisementItem = (props) => {
                     <CardMedia
                         component="img"
                         alt="Contemplative Reptile"
-                        style={{maxWidth : 256,maxHeight : 256,margin : '0 auto'}}
+                        style={{maxWidth : 256,maxHeight : 256,margin : '0 auto',width : 'auto',height : 'auto'}}
                         image={image && image == '1' ? `http://localhost:3001/advertisement/${record_id}/image` : ImagePlaceholder}
                         title="Contemplative Reptile"
                     />

@@ -22,15 +22,23 @@ class Home extends React.Component {
         })
     }
 
+    getText = (username,fullName) => {
+        if(username){
+            return <p>Hi {fullName}</p>
+        }
+        return <p>Please <span
+            onClick={() => this.props.history.push('/sign-up')}>Create an Account</span> or <span
+            onClick={() => this.props.history.push('/login')}>Login</span></p>
+    }
+
     render() {
+        const {username,first_name,last_name} = this.props.userInfo
         return (
             <div className="home-page-body">
                 <img alt="AYBU Logo" src={AybuLogo} width={128} style={{paddingBottom: 64}}/>
                 <Typography variant="h4">AYBU Student Assistant System</Typography>
                 <div className="form-buttons">
-                    <p>Please <span
-                        onClick={() => this.props.history.push('/sign-up')}>Create an Account</span> or <span
-                        onClick={() => this.props.history.push('/login')}>Login</span></p>
+                    {this.getText(username,`${first_name} ${last_name}`)}
                 </div>
             </div>
         )

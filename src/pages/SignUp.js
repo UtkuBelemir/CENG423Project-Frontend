@@ -18,9 +18,10 @@ class SignUp extends React.Component {
             endPoint: "auth/signup",
             formName: "signupForm",
             notifications : {
-                success : {},
-                error : {}
-            }
+                success : true,
+                error : true
+            },
+            onSuccess : () => this.props.history.push('/login')
         })
     }
 
