@@ -68,7 +68,7 @@ class AdvertisementDashboard extends React.Component {
                     container
                     direction="row"
                     alignItems="center">
-                    {this.props.roommateAdvertisements ? this.props.roommateAdvertisements.length > 0 ? this.props.roommateAdvertisements.map((i1, ind) => {
+                    {this.props.roommateAdvertisements ? this.props.roommateAdvertisements.length > 0 ? this.props.roommateAdvertisements.sort( (i1,i2) => i1.record_id > i2.record_id).map((i1, ind) => {
                             return <AdvertisementItem key={i1.record_id} data={i1} type="roommate"
                                                       editClick={() => this.props.history.push('/find-roommate/edit/' + i1.record_id)}
                                                       cardClick={() => this.handleCardClick(i1.owner, i1.record_id)}
@@ -90,7 +90,7 @@ class AdvertisementDashboard extends React.Component {
                     container
                     direction="row"
                     alignItems="center">
-                    {this.props.buySellAdvertisements ? this.props.buySellAdvertisements.length > 0 ? this.props.buySellAdvertisements.map((i1, ind) => {
+                    {this.props.buySellAdvertisements ? this.props.buySellAdvertisements.length > 0 ? this.props.buySellAdvertisements.sort( (i1,i2) => i1.record_id > i2.record_id).map((i1, ind) => {
                             return <AdvertisementItem key={i1.record_id} data={i1} type="buy-sell"
                                                       editClick={() => this.props.history.push('/buy-and-sell/edit/' + i1.record_id)}
                                                       cardClick={() => this.handleCardClick(i1.owner, i1.record_id)}

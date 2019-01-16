@@ -12,8 +12,9 @@ class ResetPassword extends React.Component {
             formName: "resetPwForm",
             notifications : {
                 success : true,
-                error : true
-            }
+                error : true,
+            },
+            onSuccess : () => this.props.history.push('/login')
         })
     }
     render() {
